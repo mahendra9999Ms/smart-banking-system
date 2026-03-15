@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASB Smart Banking — Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#0B1629;--navy2:#111E35;--gold:#C9A84C;--gold2:#E8C46A;--teal:#19B8A0;--red:#E05252;--text:#E8EDF5;--muted:#7A8BAA;--border:rgba(201,168,76,0.18);}
+    body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:48px 48px;}
+    .register-box{background:rgba(17,30,53,0.98);border:1px solid var(--border);border-radius:18px;padding:44px 48px;width:100%;max-width:620px;position:relative;z-index:1;}
+    .brand{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);margin-bottom:4px;}
+    .brand span{color:var(--text);}
+    .subtitle{font-size:0.875rem;color:var(--muted);margin-bottom:32px;}
+    .row{display:flex;gap:16px;flex-wrap:wrap;}
+    .col{flex:1;min-width:200px;}
+    .form-group{margin-bottom:20px;}
+    .form-group label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);display:block;margin-bottom:6px;}
+    .form-group input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);padding:11px 16px;font-size:0.9rem;outline:none;transition:border-color .2s,box-shadow .2s;font-family:'DM Sans',sans-serif;}
+    .form-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.15);}
+    .form-group input::placeholder{color:rgba(122,139,170,0.5);}
+    .btn-submit{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0B1629;font-weight:700;border:none;padding:13px;border-radius:10px;font-size:0.95rem;letter-spacing:0.05em;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;margin-top:8px;}
+    .btn-submit:hover{opacity:.88;transform:translateY(-1px);}
+    .alert{background:rgba(224,82,82,0.1);border:1px solid rgba(224,82,82,0.3);color:var(--red);border-radius:10px;padding:11px 16px;font-size:0.85rem;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+    .login-link{text-align:center;margin-top:20px;font-size:0.875rem;color:var(--muted);}
+    .login-link a{color:var(--gold);text-decoration:none;font-weight:600;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+    .register-box{animation:fadeIn .4s ease both;}
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <div class="brand">ASB <span>Smart Banking</span></div>
+    <div class="subtitle">Create your secure banking account</div>
+
+    {% if message %}<div class="alert"><i class="bi bi-exclamation-circle"></i>{{ message }}</div>{% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col">
+          <div class="form-group"><label>Full Name</label><input type="text" name="full_name" placeholder="Your full name"></div>
+        </div>
+        <div class="col">
+          <div class="form-group"><label>Username *</label><input type="text" name="username" required placeholder="Choose a username"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="your@email.com"></div>
+        </div>
+        <div class="col">
+          <div class="form-group"><label>Phone</label><input type="text" name="phone" placeholder="Phone number"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group"><label>Password *</label><input type="password" name="password" required placeholder="Create password"></div>
+        </div>
+        <div class="col">
+          <div class="form-group"><label>Confirm Password *</label><input type="password" name="confirm_password" required placeholder="Repeat password"></div>
+        </div>
+      </div>
+      <button class="btn-submit" type="submit">CREATE ACCOUNT <i class="bi bi-arrow-right"></i></button>
+    </form>
+    <div class="login-link">Already have an account? <a href="{% url 'login' %}">Sign in</a></div>
+  </div>
+</body>
+</html>

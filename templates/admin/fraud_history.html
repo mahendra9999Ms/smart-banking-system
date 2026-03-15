@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-file-earmark-lock"></i></span>Fraud History</div>
+<div class="asb-card fade-up">
+  <table class="asb-table">
+    <thead><tr><th>User</th><th>Date</th><th>Type</th><th>Amount</th><th>Risk</th><th>Explanation</th></tr></thead>
+    <tbody>
+      {% for f in records %}
+      <tr class="fraud-row">
+        <td><i class="bi bi-person" style="color:var(--muted);"></i> {{ f.user.username }}</td>
+        <td style="color:var(--muted);font-size:0.82rem;">{{ f.detected_at|date:"d M Y, H:i" }}</td>
+        <td>{{ f.bill_type }}</td>
+        <td style="color:var(--red);font-weight:600;">₹ {{ f.amount }}</td>
+        <td><span class="badge-danger">{{ f.risk_score }}</span></td>
+        <td style="font-size:0.8rem;color:var(--muted);">{{ f.explanation|default:"—" }}</td>
+      </tr>
+      {% empty %}<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:30px;">No fraud history yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

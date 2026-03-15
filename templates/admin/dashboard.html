@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-speedometer2"></i></span>Admin Dashboard</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3 fade-up fade-up-1">
+    <div class="asb-card">
+      <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+      <div class="card-label">Total Users</div>
+      <div class="card-value">{{ user_count }}</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 fade-up fade-up-2">
+    <div class="asb-card">
+      <div class="stat-icon teal"><i class="bi bi-arrow-left-right"></i></div>
+      <div class="card-label">Transactions</div>
+      <div class="card-value teal">{{ total_transactions }}</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 fade-up fade-up-3">
+    <div class="asb-card">
+      <div class="stat-icon red"><i class="bi bi-shield-exclamation"></i></div>
+      <div class="card-label">Fraud Records</div>
+      <div class="card-value red">{{ fraud_count }}</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 fade-up fade-up-4">
+    <div class="asb-card">
+      <div class="stat-icon gold"><i class="bi bi-bank"></i></div>
+      <div class="card-label">Total Balance</div>
+      <div class="card-value gold">₹{{ total_balance }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Links -->
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-grid"></i></span>Quick Navigation</div>
+<div class="row g-3">
+  {% for icon,label,url,col in links %}{% endfor %}
+  {% for item in nav_items %}{% endfor %}
+
+  <div class="col-6 col-md-4 fade-up fade-up-1">
+    <a href="{% url 'manage_users' %}" style="text-decoration:none;">
+      <div class="asb-card" style="cursor:pointer;display:flex;align-items:center;gap:14px;">
+        <div class="stat-icon blue" style="margin-bottom:0;flex-shrink:0;"><i class="bi bi-people"></i></div>
+        <div><div style="font-weight:600;font-size:0.9rem;">Manage Users</div><div style="font-size:0.78rem;color:var(--muted);">Block, edit, adjust balance</div></div>
+      </div>
+    </a>
+  </div>
+  <div class="col-6 col-md-4 fade-up fade-up-2">
+    <a href="{% url 'all_transactions' %}" style="text-decoration:none;">
+      <div class="asb-card" style="cursor:pointer;display:flex;align-items:center;gap:14px;">
+        <div class="stat-icon teal" style="margin-bottom:0;flex-shrink:0;"><i class="bi bi-table"></i></div>
+        <div><div style="font-weight:600;font-size:0.9rem;">All Transactions</div><div style="font-size:0.78rem;color:var(--muted);">Full transaction log</div></div>
+      </div>
+    </a>
+  </div>
+  <div class="col-6 col-md-4 fade-up fade-up-3">
+    <a href="{% url 'fraud_alerts' %}" style="text-decoration:none;">
+      <div class="asb-card" style="cursor:pointer;display:flex;align-items:center;gap:14px;">
+        <div class="stat-icon red" style="margin-bottom:0;flex-shrink:0;"><i class="bi bi-bell"></i></div>
+        <div><div style="font-weight:600;font-size:0.9rem;">Fraud Alerts</div><div style="font-size:0.78rem;color:var(--muted);">Latest 10 detections</div></div>
+      </div>
+    </a>
+  </div>
+  <div class="col-6 col-md-4 fade-up fade-up-4">
+    <a href="{% url 'reports' %}" style="text-decoration:none;">
+      <div class="asb-card" style="cursor:pointer;display:flex;align-items:center;gap:14px;">
+        <div class="stat-icon gold" style="margin-bottom:0;flex-shrink:0;"><i class="bi bi-bar-chart"></i></div>
+        <div><div style="font-weight:600;font-size:0.9rem;">Reports</div><div style="font-size:0.78rem;color:var(--muted);">Analytics & charts</div></div>
+      </div>
+    </a>
+  </div>
+  <div class="col-6 col-md-4 fade-up fade-up-1">
+    <a href="{% url 'create_user' %}" style="text-decoration:none;">
+      <div class="asb-card" style="cursor:pointer;display:flex;align-items:center;gap:14px;">
+        <div class="stat-icon" style="background:rgba(167,139,250,0.12);color:#A78BFA;margin-bottom:0;flex-shrink:0;"><i class="bi bi-person-plus"></i></div>
+        <div><div style="font-weight:600;font-size:0.9rem;">Create Account</div><div style="font-size:0.78rem;color:var(--muted);">Add new bank user</div></div>
+      </div>
+    </a>
+  </div>
+  <div class="col-6 col-md-4 fade-up fade-up-2">
+    <a href="{% url 'audit_log' %}" style="text-decoration:none;">
+      <div class="asb-card" style="cursor:pointer;display:flex;align-items:center;gap:14px;">
+        <div class="stat-icon" style="background:rgba(251,191,36,0.1);color:#FBBF24;margin-bottom:0;flex-shrink:0;"><i class="bi bi-journal-check"></i></div>
+        <div><div style="font-weight:600;font-size:0.9rem;">Audit Log</div><div style="font-size:0.78rem;color:var(--muted);">Admin action history</div></div>
+      </div>
+    </a>
+  </div>
+</div>
+{% endblock %}

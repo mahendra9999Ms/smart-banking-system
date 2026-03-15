@@ -1,0 +1,49 @@
+<nav class="asb-nav">
+  <a href="{% url 'admin_dashboard' %}" class="brand">ASB <span>Admin Panel</span></a>
+  <button class="nav-mobile-toggle" id="adminMobileToggle" onclick="toggleMobileMenu()" aria-label="Menu">
+    <i class="bi bi-list" style="font-size:1.4rem;color:var(--text);"></i>
+  </button>
+  <div class="nav-links" id="adminNavLinks">
+    <a href="{% url 'admin_dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="{% url 'create_user' %}"><i class="bi bi-person-plus"></i> Create</a>
+    <a href="{% url 'manage_users' %}"><i class="bi bi-people"></i> Users</a>
+    <a href="{% url 'all_transactions' %}"><i class="bi bi-arrow-left-right"></i> Txns</a>
+    <a href="{% url 'fraud_alerts' %}"><i class="bi bi-shield-exclamation"></i> Alerts</a>
+    <a href="{% url 'fraud_history' %}"><i class="bi bi-file-earmark-lock"></i> Fraud</a>
+    <a href="{% url 'reports' %}"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <a href="{% url 'audit_log' %}"><i class="bi bi-journal-text"></i> Audit</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-user" onclick="toggleNavDrop(this)" tabindex="0">
+      <i class="bi bi-shield-lock"></i> {{ request.user.username }}
+      <i class="bi bi-chevron-down" style="font-size:.7rem;transition:transform .2s;"></i>
+      <div class="nav-dropdown">
+        <a href="{% url 'logout' %}" class="red"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+function toggleNavDrop(el) {
+  var drop = el.querySelector('.nav-dropdown');
+  var chev = el.querySelector('.bi-chevron-down');
+  var isOpen = drop.style.display === 'block';
+  document.querySelectorAll('.nav-dropdown').forEach(function(d){ d.style.display='none'; });
+  document.querySelectorAll('.nav-user .bi-chevron-down').forEach(function(c){ c.style.transform=''; });
+  if (!isOpen) {
+    drop.style.display = 'block';
+    chev.style.transform = 'rotate(180deg)';
+  }
+}
+function toggleMobileMenu() {
+  var links = document.getElementById('adminNavLinks');
+  links.style.display = (links.style.display === 'flex') ? 'none' : 'flex';
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-user')) {
+    document.querySelectorAll('.nav-dropdown').forEach(function(d){ d.style.display='none'; });
+    document.querySelectorAll('.nav-user .bi-chevron-down').forEach(function(c){ c.style.transform=''; });
+  }
+});
+</script>

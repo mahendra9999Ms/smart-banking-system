@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-md-7 col-lg-6">
+
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-send"></i></span>Send Money</div>
+
+{% if error %}
+<div class="asb-alert error fade-up"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+{% endif %}
+
+<div class="asb-card fade-up fade-up-1">
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="mb-4">
+      <label class="asb-label">Receiver Bank</label>
+      <select name="bank_name" class="asb-input">
+        <option value="internal">ASB Smart Banking (Internal)</option>
+        <option value="SBI">State Bank of India</option>
+        <option value="HDFC">HDFC Bank</option>
+        <option value="ICICI">ICICI Bank</option>
+        <option value="AXIS">Axis Bank</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label class="asb-label">Receiver Account Number</label>
+      <input type="text" name="receiver" class="asb-input" placeholder="e.g. ASB123456789" required>
+    </div>
+
+    <div class="mb-4">
+      <label class="asb-label">Amount (₹)</label>
+      <input type="number" name="amount" class="asb-input" placeholder="Enter amount" min="1" required>
+    </div>
+
+    <div style="background:rgba(201,168,76,0.06);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:24px;font-size:0.82rem;color:var(--muted);">
+      <i class="bi bi-shield-check" style="color:var(--teal);"></i>
+      &nbsp;All transfers are screened by our AI fraud detection engine in real-time.
+    </div>
+
+    <button class="btn-gold w-100" type="submit"><i class="bi bi-send-fill"></i> Continue to OTP Verification</button>
+  </form>
+</div>
+
+</div>
+</div>
+{% endblock %}

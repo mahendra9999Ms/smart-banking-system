@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-md-6 col-lg-5">
+
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-shield-lock"></i></span>Verify OTP</div>
+
+{% if error %}
+<div class="asb-alert error fade-up"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+{% endif %}
+
+{% if transfer %}
+<div class="asb-card fade-up fade-up-1 mb-3" style="border-color:rgba(25,184,160,0.3);">
+  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:12px;">Transfer Summary</div>
+  {% if transfer.external %}
+  <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.875rem;">
+    <span style="color:var(--muted);">Bank</span><span>{{ transfer.bank_name }}</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.875rem;">
+    <span style="color:var(--muted);">Account</span><span class="acct-chip">{{ transfer.receiver_account }}</span>
+  </div>
+  {% else %}
+  <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.875rem;">
+    <span style="color:var(--muted);">Type</span><span>Internal Transfer</span>
+  </div>
+  {% endif %}
+  <div style="display:flex;justify-content:space-between;padding:10px 0 0;font-size:1rem;font-weight:700;">
+    <span style="color:var(--muted);">Amount</span><span style="color:var(--gold);">₹ {{ transfer.amount }}</span>
+  </div>
+</div>
+{% endif %}
+
+{% if otp %}
+<div class="asb-alert info fade-up fade-up-2" style="justify-content:center;font-size:1rem;">
+  <i class="bi bi-phone"></i> <strong>OTP (Demo):</strong> &nbsp;<span style="font-family:'Courier New',monospace;font-size:1.2rem;letter-spacing:0.2em;color:var(--gold2);">{{ otp }}</span>
+  <span style="font-size:0.75rem;color:var(--muted);margin-left:8px;">· Expires in 5 min</span>
+</div>
+{% endif %}
+
+<div class="asb-card fade-up fade-up-3">
+  <div style="text-align:center;margin-bottom:20px;">
+    <div style="font-size:2.5rem;color:var(--gold);"><i class="bi bi-shield-lock-fill"></i></div>
+    <div style="font-weight:600;margin-top:8px;">Enter your OTP</div>
+    <div style="font-size:0.82rem;color:var(--muted);margin-top:4px;">Enter the 6-digit code to confirm this transfer</div>
+  </div>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-4">
+      <input type="text" name="otp" class="asb-input" placeholder="_ _ _ _ _ _"
+             style="text-align:center;font-size:1.5rem;letter-spacing:0.3em;font-family:'Courier New',monospace;"
+             maxlength="6" required autofocus>
+    </div>
+    <button class="btn-gold w-100" type="submit"><i class="bi bi-check-circle"></i> Confirm Transfer</button>
+  </form>
+  <div style="text-align:center;margin-top:16px;">
+    <a href="{% url 'send_money' %}" style="font-size:0.82rem;color:var(--muted);text-decoration:none;"><i class="bi bi-arrow-left"></i> Cancel transfer</a>
+  </div>
+</div>
+
+</div>
+</div>
+{% endblock %}

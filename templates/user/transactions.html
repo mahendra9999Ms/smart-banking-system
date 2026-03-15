@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-clock-history"></i></span>Transaction History</div>
+
+<div class="filter-bar fade-up fade-up-1">
+  <form method="get" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;width:100%;">
+    <div class="filter-group">
+      <label>Search</label>
+      <input type="text" name="q" class="asb-input" placeholder="Search type..." value="{{ q }}" style="width:160px;padding:8px 12px;font-size:0.82rem;">
+    </div>
+    <div class="filter-group">
+      <label>Status</label>
+      <select name="type" class="asb-input" style="width:160px;padding:8px 12px;font-size:0.82rem;">
+        <option value="">All</option>
+        <option value="Success" {% if type == 'Success' %}selected{% endif %}>Success</option>
+        <option value="Blocked - Fraud" {% if type == 'Blocked - Fraud' %}selected{% endif %}>Blocked</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>From</label>
+      <input type="date" name="from_date" class="asb-input" value="{{ from_date }}" style="padding:8px 12px;font-size:0.82rem;">
+    </div>
+    <div class="filter-group">
+      <label>To</label>
+      <input type="date" name="to_date" class="asb-input" value="{{ to_date }}" style="padding:8px 12px;font-size:0.82rem;">
+    </div>
+    <div class="filter-group">
+      <label>&nbsp;</label>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-gold" type="submit" style="padding:9px 18px;"><i class="bi bi-funnel"></i> Filter</button>
+        <a href="{% url 'transactions' %}" class="btn-outline" style="padding:9px 14px;"><i class="bi bi-x"></i></a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="asb-card fade-up fade-up-2" style="overflow-x:auto;">
+  {% if transactions %}
+  <table class="asb-table">
+    <thead><tr><th>Date & Time</th><th>Type</th><th>Amount</th><th>Status</th><th>Risk Score</th></tr></thead>
+    <tbody>
+      {% for t in transactions %}
+      <tr {% if t.status == 'Blocked - Fraud' %}class="fraud-row"{% endif %}>
+        <td style="color:var(--muted);font-size:0.82rem;">{{ t.created_at|date:"d M Y, H:i" }}</td>
+        <td>{{ t.bill_type }}</td>
+        <td style="font-weight:600;{% if t.status == 'Blocked - Fraud' %}color:var(--red);{% else %}color:var(--teal);{% endif %}">₹ {{ t.amount }}</td>
+        <td>
+          {% if t.status == 'Success' %}<span class="badge-success">Success</span>
+          {% else %}<span class="badge-danger">{{ t.status }}</span>{% endif %}
+        </td>
+        <td>
+          {% if t.risk_score >= 75 %}<span class="badge-danger">{{ t.risk_score }}</span>
+          {% elif t.risk_score >= 40 %}<span class="badge-gold">{{ t.risk_score }}</span>
+          {% else %}<span class="badge-success">{{ t.risk_score }}</span>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div style="text-align:center;padding:48px;color:var(--muted);">
+    <i class="bi bi-inbox" style="font-size:2.5rem;display:block;margin-bottom:12px;"></i>
+    No transactions found.
+  </div>
+  {% endif %}
+</div>
+
+<div class="asb-page">
+  {% if transactions.has_previous %}<a href="?page={{ transactions.previous_page_number }}&q={{ q }}&type={{ type }}&from_date={{ from_date }}&to_date={{ to_date }}"><i class="bi bi-chevron-left"></i></a>{% endif %}
+  {% if transactions.paginator.num_pages > 1 %}<span class="current">{{ transactions.number }} / {{ transactions.paginator.num_pages }}</span>{% endif %}
+  {% if transactions.has_next %}<a href="?page={{ transactions.next_page_number }}&q={{ q }}&type={{ type }}&from_date={{ from_date }}&to_date={{ to_date }}"><i class="bi bi-chevron-right"></i></a>{% endif %}
+</div>
+{% endblock %}

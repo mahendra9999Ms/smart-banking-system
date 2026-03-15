@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-person"></i></span>My Profile</div>
+
+{% if msg %}
+<div class="asb-alert {% if 'incorrect' in msg or 'not match' in msg or 'least' in msg %}error{% else %}success{% endif %} fade-up">
+  <i class="bi bi-{% if 'incorrect' in msg or 'not match' in msg or 'least' in msg %}exclamation-circle{% else %}check-circle{% endif %}"></i> {{ msg }}
+</div>
+{% endif %}
+
+<div class="row g-3">
+  <!-- Account summary -->
+  <div class="col-md-4 fade-up fade-up-1">
+    <div class="asb-card text-center" style="height:100%;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold);margin:0 auto 16px;">
+        <i class="bi bi-person-circle"></i>
+      </div>
+      <div style="font-weight:700;font-size:1.05rem;">{{ profile.user.username }}</div>
+      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:20px;">{{ profile.full_name|default:"—" }}</div>
+      <div class="asb-divider"></div>
+      <div style="text-align:left;">
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px;">Account Number</div>
+        <div class="acct-chip">{{ profile.account_number }}</div>
+        <div style="margin-top:16px;">
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:4px;">Balance</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);">₹ {{ profile.balance }}</div>
+        </div>
+        <div style="margin-top:16px;">
+          <span class="badge-success"><i class="bi bi-check-circle"></i> Active Account</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <!-- Update Profile -->
+    <div class="asb-card fade-up fade-up-2 mb-3">
+      <div style="font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;"><i class="bi bi-person" style="color:var(--gold);"></i> Personal Details</div>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="update_profile">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="asb-label">Username</label>
+            <input type="text" class="asb-input" value="{{ profile.user.username }}" disabled style="opacity:0.5;cursor:not-allowed;">
+          </div>
+          <div class="col-md-6">
+            <label class="asb-label">Full Name</label>
+            <input type="text" name="full_name" class="asb-input" value="{{ profile.full_name }}">
+          </div>
+          <div class="col-md-6">
+            <label class="asb-label">Email</label>
+            <input type="email" name="email" class="asb-input" value="{{ profile.email }}">
+          </div>
+          <div class="col-md-6">
+            <label class="asb-label">Phone</label>
+            <input type="text" name="phone" class="asb-input" value="{{ profile.phone }}">
+          </div>
+          <div class="col-12">
+            <button class="btn-gold" type="submit"><i class="bi bi-check2"></i> Save Changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Change Password -->
+    <div id="change-password" class="asb-card fade-up fade-up-3" style="border-color:rgba(201,168,76,0.2);">
+      <div style="font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;"><i class="bi bi-key" style="color:var(--gold);"></i> Change Password</div>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="change_password">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <label class="asb-label">Current Password</label>
+            <input type="password" name="old_password" class="asb-input" required>
+          </div>
+          <div class="col-md-6">
+            <label class="asb-label">New Password</label>
+            <input type="password" name="new_password" class="asb-input" required>
+          </div>
+          <div class="col-md-6">
+            <label class="asb-label">Confirm New Password</label>
+            <input type="password" name="confirm_password" class="asb-input" required>
+          </div>
+          <div class="col-12">
+            <button class="btn-outline" type="submit" style="border-color:rgba(201,168,76,0.3);color:var(--gold);"><i class="bi bi-key"></i> Update Password</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

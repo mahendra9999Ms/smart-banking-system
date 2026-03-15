@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-arrow-left-right"></i></span>All Transactions</div>
+<div class="asb-card fade-up" style="overflow-x:auto;">
+  <table class="asb-table">
+    <thead><tr><th>Date</th><th>User</th><th>Type</th><th>Amount</th><th>Status</th><th>Risk</th></tr></thead>
+    <tbody>
+      {% for t in transactions %}
+      <tr {% if t.status == 'Blocked - Fraud' %}class="fraud-row"{% endif %}>
+        <td style="color:var(--muted);font-size:0.82rem;">{{ t.created_at|date:"d M Y, H:i" }}</td>
+        <td style="font-weight:600;">{{ t.user.username }}</td>
+        <td>{{ t.bill_type }}</td>
+        <td style="font-weight:600;{% if t.status == 'Blocked - Fraud' %}color:var(--red);{% else %}color:var(--teal);{% endif %}">₹ {{ t.amount }}</td>
+        <td>
+          {% if t.status == 'Success' %}<span class="badge-success">Success</span>
+          {% else %}<span class="badge-danger">{{ t.status }}</span>{% endif %}
+        </td>
+        <td>
+          {% if t.risk_score >= 75 %}<span class="badge-danger">{{ t.risk_score }}</span>
+          {% elif t.risk_score >= 40 %}<span class="badge-gold">{{ t.risk_score }}</span>
+          {% else %}<span class="badge-success">{{ t.risk_score }}</span>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="asb-page">
+  {% if transactions.has_previous %}<a href="?page={{ transactions.previous_page_number }}"><i class="bi bi-chevron-left"></i></a>{% endif %}
+  <span class="current">{{ transactions.number }} / {{ transactions.paginator.num_pages }}</span>
+  {% if transactions.has_next %}<a href="?page={{ transactions.next_page_number }}"><i class="bi bi-chevron-right"></i></a>{% endif %}
+</div>
+{% endblock %}

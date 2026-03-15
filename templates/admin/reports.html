@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-bar-chart-line"></i></span>Fraud Analytics Report</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3 fade-up fade-up-1">
+    <div class="asb-card">
+      <div class="stat-icon blue"><i class="bi bi-arrow-left-right"></i></div>
+      <div class="card-label">Total Transactions</div>
+      <div class="card-value">{{ total_transactions }}</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 fade-up fade-up-2">
+    <div class="asb-card">
+      <div class="stat-icon red"><i class="bi bi-shield-x"></i></div>
+      <div class="card-label">Fraud Detected</div>
+      <div class="card-value red">{{ fraud_transactions }}</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 fade-up fade-up-3">
+    <div class="asb-card">
+      <div class="stat-icon gold"><i class="bi bi-exclamation-triangle"></i></div>
+      <div class="card-label">High Risk (≥70)</div>
+      <div class="card-value gold">{{ high_risk }}</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 fade-up fade-up-4">
+    <div class="asb-card">
+      <div class="stat-icon teal"><i class="bi bi-percent"></i></div>
+      <div class="card-label">Fraud Rate</div>
+      <div class="card-value teal">{{ fraud_rate }}%</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-5 fade-up fade-up-1">
+    <div class="asb-card" style="height:340px;display:flex;flex-direction:column;">
+      <div style="font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;"><i class="bi bi-pie-chart" style="color:var(--gold);"></i> Transaction Breakdown</div>
+      <div style="flex:1;position:relative;"><canvas id="fraudPie"></canvas></div>
+    </div>
+  </div>
+  <div class="col-md-7 fade-up fade-up-2">
+    <div class="asb-card" style="height:340px;display:flex;flex-direction:column;">
+      <div style="font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;"><i class="bi bi-bar-chart" style="color:var(--gold);"></i> Monthly Fraud Trend</div>
+      <div style="flex:1;position:relative;"><canvas id="fraudBar"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  Chart.defaults.color = '#7A8BAA';
+  Chart.defaults.borderColor = 'rgba(201,168,76,0.1)';
+
+  new Chart(document.getElementById('fraudPie'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Fraud', 'Safe'],
+      datasets: [{ data: [{{ fraud_transactions }}, {{ total_transactions }} - {{ fraud_transactions }}],
+        backgroundColor: ['rgba(224,82,82,0.85)','rgba(25,184,160,0.85)'],
+        borderColor: ['#E05252','#19B8A0'], borderWidth: 2 }]
+    },
+    options: { plugins: { legend: { position:'bottom', labels: { color:'#E8EDF5', padding:20 } } }, cutout:'65%' }
+  });
+
+  new Chart(document.getElementById('fraudBar'), {
+    type: 'bar',
+    data: {
+      labels: [{% for m in monthly_fraud %}"{{ m.month }}",{% endfor %}],
+      datasets: [{ label: 'Fraud Count', data: [{% for m in monthly_fraud %}{{ m.count }},{% endfor %}],
+        backgroundColor: 'rgba(224,82,82,0.7)', borderColor: '#E05252', borderWidth: 1, borderRadius: 6 }]
+    },
+    options: { plugins: { legend: { labels: { color:'#E8EDF5' } } },
+               scales: { x: { grid: { color:'rgba(201,168,76,0.07)' } }, y: { grid: { color:'rgba(201,168,76,0.07)' }, beginAtZero:true } } }
+  });
+</script>
+{% endblock %}

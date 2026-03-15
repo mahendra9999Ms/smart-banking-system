@@ -1,0 +1,43 @@
+<nav class="asb-nav">
+  <a href="{% url 'user_dashboard' %}" class="brand">ASB <span>Smart Banking</span></a>
+  <div class="nav-links">
+    <a href="{% url 'user_dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+    <a href="{% url 'send_money' %}"><i class="bi bi-send"></i> Send</a>
+    <a href="{% url 'bill_pay' %}"><i class="bi bi-receipt"></i> Bills</a>
+    <a href="{% url 'transactions' %}"><i class="bi bi-clock-history"></i> History</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-user" id="navUserBtn" onclick="toggleNavDrop(this)" tabindex="0">
+      <i class="bi bi-person-circle"></i> {{ request.user.username }}
+      <i class="bi bi-chevron-down" id="navChevron" style="font-size:.7rem;transition:transform .2s;"></i>
+      <div class="nav-dropdown" id="navDropdown">
+        <a href="{% url 'profile' %}"><i class="bi bi-person"></i> My Profile</a>
+        <a href="{% url 'transactions' %}"><i class="bi bi-clock-history"></i> Transactions</a>
+        <div class="nav-sep"></div>
+        <a href="{% url 'logout' %}" class="red"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+function toggleNavDrop(el) {
+  var drop = el.querySelector('.nav-dropdown');
+  var chev = el.querySelector('.bi-chevron-down');
+  var isOpen = drop.style.display === 'block';
+  // Close all open dropdowns first
+  document.querySelectorAll('.nav-dropdown').forEach(function(d){ d.style.display='none'; });
+  document.querySelectorAll('.bi-chevron-down').forEach(function(c){ c.style.transform=''; });
+  if (!isOpen) {
+    drop.style.display = 'block';
+    chev.style.transform = 'rotate(180deg)';
+  }
+}
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-user')) {
+    document.querySelectorAll('.nav-dropdown').forEach(function(d){ d.style.display='none'; });
+    document.querySelectorAll('.bi-chevron-down').forEach(function(c){ c.style.transform=''; });
+  }
+});
+</script>

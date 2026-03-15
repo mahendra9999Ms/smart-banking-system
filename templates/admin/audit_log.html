@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-journal-text"></i></span>Audit Log</div>
+<div class="asb-card fade-up" style="overflow-x:auto;">
+  <table class="asb-table">
+    <thead><tr><th>#</th><th>Timestamp</th><th>Admin</th><th>Action</th><th>Target</th><th>Details</th></tr></thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td style="color:var(--muted);font-size:0.8rem;">{{ forloop.counter }}</td>
+        <td style="color:var(--muted);font-size:0.8rem;">{{ log.timestamp|date:"d M Y, H:i:s" }}</td>
+        <td style="font-weight:600;">{{ log.actor }}</td>
+        <td>
+          {% if 'Block' in log.action %}<span class="badge-danger">{{ log.action }}</span>
+          {% elif 'Unblock' in log.action %}<span class="badge-success">{{ log.action }}</span>
+          {% elif 'Reset' in log.action or 'Edit' in log.action %}<span class="badge-gold">{{ log.action }}</span>
+          {% else %}<span class="badge-blue">{{ log.action }}</span>{% endif %}
+        </td>
+        <td style="font-weight:600;">{{ log.target }}</td>
+        <td style="font-size:0.8rem;color:var(--muted);">{{ log.details|default:"—" }}</td>
+      </tr>
+      {% empty %}<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:30px;">No audit records yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="asb-page">
+  {% if logs.has_previous %}<a href="?page={{ logs.previous_page_number }}"><i class="bi bi-chevron-left"></i></a>{% endif %}
+  <span class="current">{{ logs.number }} / {{ logs.paginator.num_pages }}</span>
+  {% if logs.has_next %}<a href="?page={{ logs.next_page_number }}"><i class="bi bi-chevron-right"></i></a>{% endif %}
+</div>
+{% endblock %}

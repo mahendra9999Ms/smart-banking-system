@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-md-6 col-lg-5">
+<div class="asb-card fade-up text-center" style="border-color:rgba(25,184,160,0.3);padding:40px;">
+  <div style="font-size:3.5rem;color:var(--teal);margin-bottom:12px;"><i class="bi bi-check-circle-fill"></i></div>
+  <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--text);margin-bottom:4px;">Transaction Successful</div>
+  <div style="font-size:0.85rem;color:var(--muted);margin-bottom:28px;">Your transfer has been processed</div>
+
+  <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:20px;text-align:left;margin-bottom:24px;">
+    <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.875rem;">
+      <span style="color:var(--muted);">Type</span><span>{{ type }}</span>
+    </div>
+    {% if receiver %}
+    <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.875rem;">
+      <span style="color:var(--muted);">Receiver</span><span class="acct-chip">{{ receiver }}</span>
+    </div>
+    {% endif %}
+    {% if bank %}
+    <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.875rem;">
+      <span style="color:var(--muted);">Bank</span><span>{{ bank }}</span>
+    </div>
+    {% endif %}
+    <div style="display:flex;justify-content:space-between;padding:12px 0 0;font-size:1.15rem;font-weight:700;">
+      <span style="color:var(--muted);">Amount</span><span style="color:var(--gold);">₹ {{ amount }}</span>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:12px;justify-content:center;">
+    <a href="{% url 'user_dashboard' %}" class="btn-gold"><i class="bi bi-house"></i> Dashboard</a>
+    <a href="{% url 'transactions' %}" class="btn-outline"><i class="bi bi-clock-history"></i> History</a>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

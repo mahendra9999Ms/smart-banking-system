@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-md-7 col-lg-5">
+
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-receipt"></i></span>Pay Bills</div>
+
+{% if message %}
+  {% if fraud %}
+    <div class="asb-alert error fade-up"><i class="bi bi-shield-x"></i> {{ message }}</div>
+  {% else %}
+    <div class="asb-alert success fade-up"><i class="bi bi-check-circle"></i> {{ message }}</div>
+  {% endif %}
+{% endif %}
+
+<div class="asb-card fade-up fade-up-1 mb-3" style="display:flex;align-items:center;gap:14px;">
+  <div class="stat-icon gold" style="margin-bottom:0;flex-shrink:0;"><i class="bi bi-wallet2"></i></div>
+  <div>
+    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);">Available Balance</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);">₹ {{ balance }}</div>
+  </div>
+</div>
+
+<div class="asb-card fade-up fade-up-2">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-4">
+      <label class="asb-label">Bill Category</label>
+      <select name="bill_type" class="asb-input">
+        <option value="Electricity">⚡ Electricity</option>
+        <option value="Water">💧 Water</option>
+        <option value="Mobile">📱 Mobile Recharge</option>
+        <option value="Internet">🌐 Internet</option>
+      </select>
+    </div>
+    <div class="mb-4">
+      <label class="asb-label">Amount (₹)</label>
+      <input type="number" name="amount" class="asb-input" placeholder="Enter amount" min="1" required>
+    </div>
+    <button class="btn-gold w-100" type="submit"><i class="bi bi-check2-circle"></i> Pay Now</button>
+  </form>
+</div>
+
+</div>
+</div>
+{% endblock %}

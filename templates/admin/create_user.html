@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-md-7 col-lg-6">
+<div class="page-title fade-up"><span class="icon-pill"><i class="bi bi-person-plus"></i></span>Create Bank Account</div>
+
+{% if msg %}
+  <div class="asb-alert {% if 'Successfully' in msg %}success{% else %}error{% endif %} fade-up">
+    <i class="bi bi-{% if 'Successfully' in msg %}check-circle{% else %}exclamation-circle{% endif %}"></i> {{ msg }}
+  </div>
+{% endif %}
+
+<div class="asb-card fade-up fade-up-1">
+  <form method="post">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="asb-label">Username *</label>
+        <input type="text" name="username" class="asb-input" required>
+      </div>
+      <div class="col-md-6">
+        <label class="asb-label">Password *</label>
+        <input type="password" name="password" class="asb-input" required>
+      </div>
+      <div class="col-md-6">
+        <label class="asb-label">Full Name</label>
+        <input type="text" name="full_name" class="asb-input" placeholder="Customer full name">
+      </div>
+      <div class="col-md-6">
+        <label class="asb-label">Phone</label>
+        <input type="text" name="phone" class="asb-input" placeholder="Phone number">
+      </div>
+      <div class="col-md-6">
+        <label class="asb-label">Email</label>
+        <input type="email" name="email" class="asb-input" placeholder="Email address">
+      </div>
+      <div class="col-md-6">
+        <label class="asb-label">Initial Balance (₹)</label>
+        <input type="number" name="balance" class="asb-input" value="5000" min="0">
+      </div>
+      <div class="col-12" style="margin-top:8px;">
+        <button class="btn-gold w-100" type="submit"><i class="bi bi-person-check"></i> Create Account</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+{% endblock %}

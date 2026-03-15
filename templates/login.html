@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASB Smart Banking — Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#0B1629;--navy2:#111E35;--gold:#C9A84C;--gold2:#E8C46A;--teal:#19B8A0;--red:#E05252;--text:#E8EDF5;--muted:#7A8BAA;--border:rgba(201,168,76,0.18);}
+    body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;display:flex;overflow:hidden;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:48px 48px;}
+
+    /* Left panel */
+    .left-panel{flex:1;background:linear-gradient(160deg,#0F1E38 0%,#0B1629 100%);display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;overflow:hidden;}
+    .left-panel::before{content:'';position:absolute;top:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,0.08),transparent 70%);border-radius:50%;}
+    .left-panel::after{content:'';position:absolute;bottom:-80px;right:-80px;width:350px;height:350px;background:radial-gradient(circle,rgba(25,184,160,0.06),transparent 70%);border-radius:50%;}
+    .bank-logo{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--gold);margin-bottom:8px;position:relative;z-index:1;}
+    .bank-logo span{color:var(--text);}
+    .bank-tagline{font-size:0.9rem;color:var(--muted);margin-bottom:48px;position:relative;z-index:1;}
+    .feature-list{list-style:none;position:relative;z-index:1;}
+    .feature-list li{display:flex;align-items:center;gap:14px;margin-bottom:20px;font-size:0.95rem;color:#A8BCDB;}
+    .feature-list li .fi{width:38px;height:38px;border-radius:10px;background:rgba(201,168,76,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0;}
+    .feature-list li strong{color:var(--text);display:block;font-size:0.9rem;margin-bottom:2px;}
+    .feature-list li span{font-size:0.8rem;}
+    .left-bottom{position:absolute;bottom:32px;left:60px;font-size:0.75rem;color:var(--muted);z-index:1;}
+
+    /* Right panel */
+    .right-panel{width:480px;background:rgba(17,30,53,0.98);border-left:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:60px 52px;position:relative;z-index:1;}
+    .login-title{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--text);margin-bottom:6px;}
+    .login-sub{font-size:0.875rem;color:var(--muted);margin-bottom:36px;}
+    .form-group{margin-bottom:20px;}
+    .form-group label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);display:block;margin-bottom:7px;}
+    .input-wrap{position:relative;}
+    .input-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem;pointer-events:none;}
+    .form-group input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);padding:12px 16px 12px 42px;font-size:0.925rem;outline:none;transition:border-color 0.2s,box-shadow 0.2s;font-family:'DM Sans',sans-serif;}
+    .form-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.15);}
+    .form-group input::placeholder{color:rgba(122,139,170,0.6);}
+    .btn-login{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0B1629;font-weight:700;border:none;padding:13px;border-radius:10px;font-size:0.95rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+    .btn-login:hover{opacity:0.88;transform:translateY(-1px);}
+    .alert-err{background:rgba(224,82,82,0.1);border:1px solid rgba(224,82,82,0.3);color:var(--red);border-radius:10px;padding:11px 16px;font-size:0.85rem;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+    .register-link{text-align:center;margin-top:24px;font-size:0.875rem;color:var(--muted);}
+    .register-link a{color:var(--gold);text-decoration:none;font-weight:600;}
+    .register-link a:hover{text-decoration:underline;}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .right-panel > *{animation:fadeIn 0.5s ease both;}
+    .right-panel > *:nth-child(1){animation-delay:0.05s;}
+    .right-panel > *:nth-child(2){animation-delay:0.1s;}
+    .right-panel > *:nth-child(3){animation-delay:0.15s;}
+
+    @media(max-width:860px){.left-panel{display:none;}.right-panel{width:100%;padding:40px 28px;}}
+  </style>
+</head>
+<body>
+  <!-- Left -->
+  <div class="left-panel">
+    <div class="bank-logo">ASB <span>Smart Banking</span></div>
+    <div class="bank-tagline">AI-Powered Fraud Detection · Secure Digital Banking</div>
+    <ul class="feature-list">
+      <li><div class="fi"><i class="bi bi-shield-check"></i></div><div><strong>Real-Time Fraud Detection</strong><span>ML-powered behavioral analysis on every transaction</span></div></li>
+      <li><div class="fi"><i class="bi bi-phone-vibrate"></i></div><div><strong>OTP Verification</strong><span>Secure two-step approval for all transfers</span></div></li>
+      <li><div class="fi"><i class="bi bi-arrow-left-right"></i></div><div><strong>Instant Transfers</strong><span>Internal & external bank transfers in seconds</span></div></li>
+      <li><div class="fi"><i class="bi bi-graph-up"></i></div><div><strong>Live Analytics</strong><span>Admin dashboard with real-time risk monitoring</span></div></li>
+    </ul>
+    <div class="left-bottom">Register No: 24FFMCA038 · MCA 2024–2026</div>
+  </div>
+
+  <!-- Right -->
+  <div class="right-panel">
+    <div class="login-title">Welcome back</div>
+    <div class="login-sub">Sign in to your secure banking account</div>
+
+    {% if messages %}{% for message in messages %}<div class="alert-err"><i class="bi bi-exclamation-circle"></i>{{ message }}</div>{% endfor %}{% endif %}
+    {% if error %}<div class="alert-err"><i class="bi bi-exclamation-circle"></i>{{ error }}</div>{% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Username</label>
+        <div class="input-wrap"><i class="bi bi-person"></i><input type="text" name="username" placeholder="Enter username" required></div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-wrap"><i class="bi bi-lock"></i><input type="password" name="password" placeholder="Enter password" required></div>
+      </div>
+      <button class="btn-login" type="submit">SIGN IN <i class="bi bi-arrow-right"></i></button>
+    </form>
+
+    <div class="register-link">Don't have an account? <a href="{% url 'register' %}">Register here</a></div>
+  </div>
+</body>
+</html>
