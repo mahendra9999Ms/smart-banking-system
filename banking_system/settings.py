@@ -26,6 +26,9 @@ SECRET_KEY = 'django-insecure-)u$uvbi!l*!)+5gw9f-7gchy#s_!*0si--+%2m*1ek#x%erz%q
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    "https://smart-banking-system-production.up.railway.app"
+]
 
 
 # Application definition
